@@ -4,11 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 import { database } from '../../../config/fb';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 
-import Product from '../../components/Product';
+import Cliente from '../../components/Cliente';
 
 export default function Home({route}) {
 
-    const [products, setProducts] = React.useState([]);
+    const [cliente, setCliente] = React.useState([]);
     const navigation = useNavigation();
 
     React.useLayoutEffect(() => {
@@ -18,17 +18,17 @@ export default function Home({route}) {
     },[navigation])
 
     React.useEffect(() => {
-        const collectionRef = collection(database, 'products');
+        const collectionRef = collection(database, 'cliente');
         const q = query(collectionRef, orderBy('createdAt', 'desc'));
 
     const unsubscribe = onSnapshot(q, querySnapshot => {
-          setProducts(
+          setCliente(
             querySnapshot.docs.map(doc => ({
                 id: doc.id,
                 emoji: doc.data().emoji,
                 name: doc.data().name,
                 price: doc.data().price,
-                isSold: doc.data().isSold,
+                ativo: doc.data().ativo,
                 createdAt: doc.data().createdAt,
                 clientUID: doc.data().clientId,
             }))
@@ -40,8 +40,8 @@ export default function Home({route}) {
     return(
         <RN.View style={styles.container}>
             <RN.ScrollView contentContainerStyle={{paddingBottom: 100}}>
-            <RN.Text style={styles.title2}>Serviços</RN.Text>
-                {products.map(product => <Product key={product.id} {...product} />)}
+            <RN.Text style={styles.title2}>Clientes</RN.Text>
+                {cliente.map(cliente => <Cliente key={cliente.id} {...cliente} />)}
             </RN.ScrollView>
         </RN.View>
     )

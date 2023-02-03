@@ -5,29 +5,24 @@ import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Product({
+export default function Cliente({
     id,
     emoji,
     name,
     price,
-    isSold,
+    ativo,
 }) {
 
     const navigation = useNavigation();
 
     const onDelete = () => {
-        const docRef = doc(database, 'products', id);
+        const docRef = doc(database, 'cliente', id);
         deleteDoc(docRef);
     }
 
-    const Contratado = () => {
-        const docRef = doc(database, 'products', id);
-        updateDoc(docRef, { isSold: true });
-    }
-
-    const Editar = () => {
-        const docRef = doc(database, 'products', id);
-        updateDoc(docRef, { name: 'Felipe' });
+    const Finalizar = () => {
+        const docRef = doc(database, 'cliente', id);
+        updateDoc(docRef, { ativo: false });
     }
 
     return(
@@ -35,22 +30,22 @@ export default function Product({
             <RN.View style={styles.productContainer}>
                 <RN.View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <RN.Text style={styles.emoji}>{emoji}</RN.Text>
-                    <AntDesign onPress={Editar} name="edit" size={30} color="black" />
+                    {/* <AntDesign onPress={Editar} name="edit" size={30} color="black" /> */}
                     <AntDesign onPress={onDelete} name="delete" size={30} color="black" />
                 </RN.View>
                 <RN.Text style={styles.name}>{name}</RN.Text>
                 <RN.Text style={styles.price}>R$ {price}</RN.Text>
-                {isSold ? (
+                {!ativo ? (
                     <RN.TouchableOpacity 
-                    style={[styles.button, {backgroundColor: 'green'}]}>
-                    <RN.Text style={styles.buttonText}>Contratado</RN.Text>
+                    style={[styles.button, {backgroundColor: 'gray'}]}>
+                    <RN.Text style={styles.buttonText}>Finalizado</RN.Text>
                 </RN.TouchableOpacity>
                 )
                 : (
                     <RN.TouchableOpacity 
-                    onPress={Contratado}
+                    onPress={Finalizar}
                     style={styles.button}>
-                    <RN.Text style={styles.buttonText}>Contratar</RN.Text>
+                    <RN.Text style={styles.buttonText}>Ativo</RN.Text>
                 </RN.TouchableOpacity>
                 )}
                 

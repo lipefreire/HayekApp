@@ -15,7 +15,7 @@ export default function Add({route}) {
         emoji: '🛠️',
         name: '',
         price: 0,
-        isSold: false,
+        ativo: true,
         createdAt: new Date(),
         clientUID: `${teste}`
     });
@@ -28,13 +28,13 @@ export default function Add({route}) {
     }
 
     const onSend = async () => {
-        const docRef = await addDoc(collection(database, 'products'), newItem);
+        const docRef = await addDoc(collection(database, 'cliente'), newItem);
         navigation.goBack();
       }
 
     return(
         <RN.View style={styles.container}>
-            <RN.Text style={styles.title}>Novo Serviço</RN.Text>
+            <RN.Text style={styles.title}>Novo Cliente</RN.Text>
             <RN.Text onPress={() => setIsOpen(true)} style={styles.emoji}>{newItem.emoji}</RN.Text>
             <EmojiPicker
                 onEmojiSelected={handlePick}
@@ -44,13 +44,13 @@ export default function Add({route}) {
                 <RN.TextInput 
                     onChangeText={(text) => setNewItem({...newItem, name: text})}
                     style={styles.containerInputPassword} 
-                    placeholder='Nome do serviço' 
+                    placeholder='Nome do Cliente' 
                     placeholderTextColor='#942cbc'
                 />
                 <RN.TextInput 
                     onChangeText={(text) => setNewItem({...newItem, price: text})}
                     style={styles.containerInputPassword} 
-                    placeholder='Preço do serviço'
+                    placeholder='Preço do Serviço'
                     keyboardType="number-pad"
                     placeholderTextColor='#942cbc'
                 />
